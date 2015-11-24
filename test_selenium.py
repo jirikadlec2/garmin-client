@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from selenium import webdriver
 import time
 
@@ -14,7 +16,6 @@ def save_garmin_tracks(activity_links, track_file, mode):
     with open(track_file, mode) as myfile:
         for link in activity_links:
             link = link.strip()
-            print(link)
             myfile.write(link+'\n')
 
 
@@ -52,6 +53,14 @@ def select_start_date(browser, n_years):
         date_button = browser.find_element_by_id('exploreSearchForm:startDateCalendarDayCell7')
         date_button.click()
         time.sleep(2)
+
+
+def zoom_out_map(browser, n_zooms):
+    for i in range(1, n_zooms):
+        mapZoomOut = browser.find_element_by_class_name("map-zoom-out")
+        mapZoomOut.click()
+        time.sleep(5)
+
 
 ################################################
 # saves the GARMIN activity links for selected
@@ -110,8 +119,6 @@ def save_garmin_activity_links(city, n_years, track_file):
     searchButton = browser.find_element_by_id("searchButton")
     searchButton.submit()
 
-    time.sleep(5)
-
     #find the grid list
     next_active = True
     while next_active:
@@ -125,10 +132,12 @@ def save_garmin_activity_links(city, n_years, track_file):
 
     save_garmin_tracks(activity_links, track_file, "w")
     browser.close()
+    print(city + ' : ' + str(len(new_links)))
 
 
-f = "garmin_tracks.txt"
+f = "garmin_tracks2.txt"
 trk = read_saved_track_names(f)
+
 save_garmin_tracks(trk, f, "w")
 trk = []
 
@@ -149,7 +158,49 @@ trk = []
 #save_garmin_activity_links('Jihlava', 10, f)
 #save_garmin_activity_links('Kocelovice', 10, f)
 #save_garmin_activity_links('Altenberg', 10, f)
-save_garmin_activity_links('Oberwiesenthal', 10, f)
-save_garmin_activity_links('Zittau', 10, f)
-save_garmin_activity_links('Heroltovice', 10, f)
-save_garmin_activity_links('Rokytno', 10, f)
+#save_garmin_activity_links('Oberwiesenthal', 10, f)
+#save_garmin_activity_links('Zittau', 10, f)
+#save_garmin_activity_links('Heroltovice', 10, f)
+#save_garmin_activity_links('Rokytno', 10, f)
+
+cities1 = [
+    'Flossenburg', 'Olbernhau', 'Hora Svateho Sebestiana',
+    'Kvan', 'Rozmital', 'Ceska Kubice', 'Primda', 'Honezovice',
+    'Tremosna', 'Cunkov', 'Jistebnice', 'Hartvikov', 'Frymburk',
+    'Ceske Budejovice', 'Pisek', 'Pribram', 'Havlickuv Brod',
+    'Hradec Kralove', 'Ceska Trebova', 'Ricany', 'Chotebor',
+    'Hlinsko', 'Napajedla', 'Zlin', 'Rajnochovice', 'Papajci', 'Orlicke Zahori',
+    'Zdobnice', 'Sedlonov', 'Krnov', 'Vitkov', 'Mala Moravka', 'Kouty nad Desnou',
+    'Dolni Morava', 'Kralicky Sneznik', 'Dlouhe Strane', 'Bruntal',
+    'Moravsky Beroun']
+
+cities2 = ['Sternberk', 'Svaty Kopecek', 'Kralovo Pole',
+    'Uhersky Brod', 'Uherske Hradiste', 'Hodonin', 'Hartmanice',
+    'Brcalnik', 'Keply', 'Vimperk', 'Klet', 'Teskov', 'Moravske Budejovice',
+    'Novy Hojkov', 'Teskov', 'Letohrad','Johanngeorgenstadt','Pernink','Medenec',
+    'Bublava','Horni Halze', 'Johstadt', 'Vejprty', 'Bolebor']
+cities3 = ['Holzhau',
+    'Moldava', 'Horazdovice','Sedlcany','Neveklov','Rymarov','Hanusovice',
+    'Sumperk']
+cities4 = ['Zelezny Brod', 'Ceska Lipa', 'Novy Bor', 'Varnsdorf',
+    'Modlibohov','Hodkovice nad Mohelkou', 'Jablonec nad Nisou','Rakovnik']
+cities5 = ['Kladno', 'Luhacovice','Vyskov','Vizovice','Roznov pod Radhostem',
+    'Celadna','Hrcava', 'Rokytnice v Orlickych Horach','Hostinne',
+    'Vrchlabi','Hejnice']
+cities6 = ['Nove Mesto pod Smrkem','Vernerice',
+    'Zdar nad Sazavou','Nova Bystrice','Kamenice nad Lipou','Telc']
+cities7 = ['Bad Brambach','Becov nad Teplou','Rokycany','Stozec','Borova Lada',
+    'Lam','Zelezna Ruda','Karlstift','Svetla nad Sazavou','Cechtice',
+    'Policka','Jimramov','Cenkovice','Kraliky','Miedzylesie','Zacler',
+    'Janske Lazne','Spindleruv Mlyn','Pec pod Snezkou','Horice',
+    'Dvur Kralove','Strakonice','Kralovice','Strani','Lazy pod Makytou',
+    'Seiffen','Znojmo','Drahany','Kurim','Decinsky Sneznik','Capartice',
+    'Rusava','Javornik','Vapenna','Lipova Lazne','Usti nad Orlici',
+    'Hronov','Police nad Metuji','Mezimesti','Jetrichovice','Dobris',
+    'Pelhrimov','Sec','Kyjov','Kaplice','Volary','Bayerisch Eisenstein',
+    'Grosser Arber','Aigen im Muhlkreis','Litschau','Waldmunchen',
+    'Selb','Auersberg','Sindelova','Nejdek','Marianska','Abertamy']
+
+for city in cities7:
+    save_garmin_activity_links(city, 10, f)
+
